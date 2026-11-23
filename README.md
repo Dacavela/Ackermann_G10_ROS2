@@ -5,7 +5,7 @@
 
 This repository contains the ROS 2 packages for a four-wheel mobile robot with **Ackermann steering geometry**. The robot model was designed in Autodesk Fusion 360, described in URDF/Xacro, spawned in Gazebo Harmonic, and controlled with a Python **Pure Pursuit** node. The controller follows **one figure-eight trajectory**, reduces speed near the final waypoint, and automatically commands a stop within a configurable goal tolerance.
 
-![Figure-eight tracking comparison](assets/trajectory_comparison.png)
+![Final V4 figure-eight trajectory](assets/ackermann_v4_trajectory.png)
 
 > **Demonstration video:** https://youtu.be/-HHaQ467vGU  
 
@@ -72,7 +72,7 @@ Ackermann_G10_ROS2/
 Open a terminal (replace `<GITHUB_USERNAME>` with the repository owner's username):
 
 ```bash
-git clone https://github.com/<GITHUB_USERNAME>/Ackermann_G10_ROS2.git
+git clone https://github.com/Dacavela/Ackermann_G10_ROS2.git
 cd Ackermann_G10_ROS2
 source /opt/ros/jazzy/setup.bash
 rosdep update
@@ -212,13 +212,63 @@ subject to a steering command limit. The Gazebo Ackermann steering system conver
 
 **Pose-frame note:** The simulation publishes both conventional `/odom` and `/ground_truth/odom`. The final demonstration controls against `/ground_truth/odom` in the world frame and uses `path_rotation_deg:=0.0`. If controlling against `/odom` instead, the reference frame must be handled separately; do not compare untransformed poses from different frames.
 
-## 7. Experimental results
+## 7. Experimental results — final V4 simulation
 
-Two earlier controller configurations were evaluated over a **matched 13.05 m path segment**. Slowing the reference speed from 0.40 to 0.30 m/s reduced the spatially normalized average tracking error from about **2.63 cm to 1.22 cm**, with maximum error dropping from **8.61 cm to 3.97 cm** over that segment. The final world-frame endpoint test is a separate experiment.
+### 7.1 Final figure-eight trajectory (world-frame ground truth)
 
-![Tracking error along equal path distance](assets/tracking_error_distance.png)
+The final ROS 2 Jazzy / Gazebo Harmonic run uses **Pure Pursuit** and the
+`/ground_truth/odom` topic to track a full figure-eight path. The steering
+controller uses Gazebo simulation ground truth rather than an onboard
+localization system; the results **do not represent physical-robot accuracy**.
 
-See [`docs/RESULTS.md`](docs/RESULTS.md) for limitations and methodology. CSV logs, if included, are under `results/`; new runs are written to the path set by `csv_path`.
+![Desired and simulated trajectories — complete V4 run](assets/ackermann_v4_trajectory.png)
+
+**Final-run configuration:** 0.30 m/s reference speed; 0.45 m lookahead;
+2.6 m figure-eight radius parameter; `path_rotation_deg = 0`;
+`goal_tolerance = 0.02 m`.
+
+| Metric | Final V4 CSV result |
+| --- | ---: |
+| Recorded samples | 1,222 |
+| Duration | 61.05 s |
+| Mean tracking error | **3.32 cm** |
+| Maximum tracking error | **6.92 cm** |
+| RMSE | **3.94 cm** |
+| Final logged distance to origin | **1.80 cm** |
+
+![Tracking error versus simulation time](assets/ackermann_v4_tracking_error.png)
+
+The final CSV sample is located at approximately **(-0.0132, -0.0122) m**,
+which is **1.80 cm** from the desired origin, inside the 2 cm stopping
+tolerance. A **separate, later** `gz model -m ackerman --pose` query reported
+**(-0.011151, -0.010369) m**, or approximately **1.52 cm** from the world
+origin; the measurements were taken at different instants and should not be
+presented as identical.
+
+![Final-position close-up and 2 cm tolerance](assets/ackermann_v4_final_position_zoom.png)
+
+The reproducible input log is
+[`results/resultado_world_precision_2cm.csv`](results/resultado_world_precision_2cm.csv).
+Regenerate all three visualizations locally with:
+
+```bash
+sudo apt install -y python3-numpy python3-pandas python3-matplotlib
+python3 scripts/plot_ackermann_v4.py \
+  results/resultado_world_precision_2cm.csv --output assets
+```
+
+### 7.2 Earlier controller optimization (tests 3 and 4)
+
+In earlier experiments, two settings were compared over a **matched 13.05 m
+path segment**. Reducing the reference speed from 0.40 to 0.30 m/s reduced
+the distance-normalized mean tracking error from about **2.63 cm to 1.22 cm**;
+the maximum error decreased from **8.61 cm to 3.97 cm** over that segment.
+These tests precede V4 and should **not** be confused with the complete
+world-frame final run documented above.
+
+![Earlier tests 3 and 4: error along matched path distance](assets/tracking_error_distance.png)
+
+See [`docs/RESULTS.md`](docs/RESULTS.md) for the original comparative methodology.
 
 ## 8. Troubleshooting
 
