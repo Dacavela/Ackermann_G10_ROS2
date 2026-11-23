@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<robot name="ackerman" xmlns:xacro="http://ros.org" >
+
+<gazebo reference="base_link"><material>Gazebo/Silver</material></gazebo>
+<gazebo reference="sensor_1"><material>Gazebo/Black</material></gazebo>
+<gazebo reference="camara_1"><material>Gazebo/Blue</material></gazebo>
+<gazebo reference="der_atras_1"><material>Gazebo/DarkGrey</material><mu1>1.2</mu1><mu2>1.2</mu2></gazebo>
+<gazebo reference="der_delante_1"><material>Gazebo/DarkGrey</material><mu1>1.2</mu1><mu2>1.2</mu2></gazebo>
+<gazebo reference="izq_atras_1"><material>Gazebo/DarkGrey</material><mu1>1.2</mu1><mu2>1.2</mu2></gazebo>
+<gazebo reference="izq_adelante_1"><material>Gazebo/DarkGrey</material><mu1>1.2</mu1><mu2>1.2</mu2></gazebo>
+
+<gazebo>
+  <plugin filename="gz-sim-ackermann-steering-system" name="gz::sim::systems::AckermannSteering">
+    <left_joint>left_back_joint</left_joint>
+    <left_joint>left_top_joint</left_joint>
+    <right_joint>right_back_joint</right_joint>
+    <right_joint>right_top_joint</right_joint>
+    <left_steering_joint>left_steering_joint</left_steering_joint>
+    <right_steering_joint>right_steering_joint</right_steering_joint>
+    <kingpin_width>0.24</kingpin_width>
+    <steering_limit>0.5</steering_limit>
+    <wheel_base>0.24</wheel_base>
+    <wheel_separation>0.24</wheel_separation>
+    <wheel_radius>0.03</wheel_radius>
+    <min_velocity>-3.0</min_velocity>
+    <max_velocity>3.0</max_velocity>
+    <min_acceleration>-5.0</min_acceleration>
+    <max_acceleration>5.0</max_acceleration>
+    <topic>/cmd_vel</topic>
+    <odom_topic>/odom</odom_topic>
+    <tf_topic>/tf</tf_topic>
+    <frame_id>odom</frame_id>
+    <child_frame_id>base_link</child_frame_id>
+  </plugin>
+</gazebo>
+
+
+<!-- Odometria de posicion real del mundo (solo simulacion / ground truth). -->
+<gazebo>
+  <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+    <odom_frame>world</odom_frame>
+    <robot_base_frame>base_link</robot_base_frame>
+    <odom_publish_frequency>30</odom_publish_frequency>
+    <odom_topic>/ground_truth/odom</odom_topic>
+    <tf_topic>/ground_truth/tf</tf_topic>
+    <dimensions>2</dimensions>
+    <gaussian_noise>0</gaussian_noise>
+  </plugin>
+</gazebo>
+
+</robot>

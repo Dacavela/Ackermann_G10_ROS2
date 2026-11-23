@@ -1,0 +1,40 @@
+# ROS 2 colcon workspace products
+/build/
+/install/
+/log/
+
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local development
+.vscode/
+.idea/
+.DS_Store
+*~
+*.swp
+
+# Large, generated output (keep curated examples in results/)
+/resultado_*.csv
+/ackermann_rosbags/
+*.db3
+*.mcap
+*.bag
+*.bag.active
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.tar.gz
+
+# Credentials and environment files
+.env
+.env.*
+*.pem
+*.key
