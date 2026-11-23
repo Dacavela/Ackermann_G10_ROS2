@@ -7,8 +7,7 @@ This repository contains the ROS 2 packages for a four-wheel mobile robot with *
 
 ![Figure-eight tracking comparison](assets/trajectory_comparison.png)
 
-> **Demonstration video:** Add the final YouTube link here before submission.  
-> **IEEE technical report and Fusion 360 manufacturing drawings:** Separate project deliverables; CAD drawings are not included in this repository unless added by the team.
+> **Demonstration video:** https://youtu.be/-HHaQ467vGU  
 
 ## 1. Platform and dependencies
 
