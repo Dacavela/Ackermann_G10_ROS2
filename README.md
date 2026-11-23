@@ -231,12 +231,3 @@ See [`docs/RESULTS.md`](docs/RESULTS.md) for limitations and methodology. CSV lo
 | Gazebo launch fails | Check that `ros-jazzy-ros-gz` and Gazebo Harmonic are installed and that no stale Gazebo instance is running. |
 | `colcon` or `rosdep` command not found | Install the build/dependency tools listed in Section 1. |
 
-## 9. Project deliverables and contributions
-
-- **Repository:** ROS 2 robot description package, meshes, trajectory-generation and Pure Pursuit code, launch files, bridge configuration, README.
-- **Video:** Add a YouTube link at the top of this file; demonstrate the complete run and final Gazebo pose.
-- **IEEE report:** Prepared separately in English and double-column format.
-- **Fusion 360 drawings:** Add dimensioned drawings of each part in a separate submission or a dedicated `cad_drawings/` folder after verifying permissions and file sizes.
-- **Presentation:** Up to 10 numbered slides, with every team member appearing in the presentation video.
-
-**Before final submission:** Add the real GitHub username, video URL, team member names and approved license; review the placeholder maintainer/license fields in `package.xml` / `setup.py`. Do not upload passwords or access tokens.
